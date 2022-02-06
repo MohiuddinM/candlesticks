@@ -10,6 +10,7 @@ import 'package:candlesticks/src/widgets/volume_widget.dart';
 import 'package:flutter/material.dart';
 import '../models/candle.dart';
 import 'package:candlesticks/src/constant/scales.dart';
+import '../models/candle_annotation.dart';
 import 'dash_line.dart';
 
 /// This widget manages gestures
@@ -32,6 +33,9 @@ class WebChart extends StatefulWidget {
   /// list of all candles to display in chart
   final List<Candle> candles;
 
+  /// list of all annotations to display in chart
+  final List<Annotation?> annotations;
+
   /// index of the newest candle to be displayed
   /// changes when user scrolls along the chart
   final int index;
@@ -47,6 +51,7 @@ class WebChart extends StatefulWidget {
     required this.index,
     required this.onPanDown,
     required this.onPanEnd,
+    required this.annotations,
   });
 
   @override
@@ -73,7 +78,7 @@ class _WebChartState extends State<WebChart> {
     });
   }
 
-  double calcutePriceScale(double height, double high, double low) {
+  double calculatePriceScale(double height, double high, double low) {
     for (int i = 0; i < scales.length; i++) {
       double newHigh = (high ~/ scales[i] + 1) * scales[i];
       double newLow = (low ~/ scales[i]) * scales[i];
@@ -115,7 +120,7 @@ class _WebChartState extends State<WebChart> {
         double chartHeight = maxHeight * 0.75 -
             2 * (MAIN_CHART_VERTICAL_PADDING + additionalVerticalPadding);
         double priceScale =
-            calcutePriceScale(chartHeight, candlesHighPrice, candlesLowPrice);
+            calculatePriceScale(chartHeight, candlesHighPrice, candlesLowPrice);
 
         // high and low calibrations revision
         candlesHighPrice = (candlesHighPrice ~/ priceScale + 1) * priceScale;
@@ -211,6 +216,7 @@ class _WebChartState extends State<WebChart> {
                                                   Theme.of(context).primaryRed,
                                               bullColor: Theme.of(context)
                                                   .primaryGreen,
+                                              annotations: widget.annotations,
                                             ),
                                           ),
                                         ),

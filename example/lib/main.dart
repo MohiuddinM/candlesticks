@@ -117,6 +117,9 @@ class _MyAppState extends State<MyApp> {
                   binanceFetch(value);
                 },
                 candles: candles,
+                annotations: candles
+                    .map((e) => e.isBull ? CircleAnnotation(radius: 2) : null)
+                    .toList(),
                 interval: interval,
               );
             },

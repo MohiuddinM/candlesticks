@@ -1,5 +1,7 @@
 import 'dart:math';
+import 'package:candlesticks/candlesticks.dart';
 import 'package:candlesticks/src/constant/view_constants.dart';
+import 'package:candlesticks/src/models/candle_annotation.dart';
 import 'package:candlesticks/src/theme/theme_data.dart';
 import 'package:candlesticks/src/utils/helper_functions.dart';
 import 'package:candlesticks/src/widgets/candle_info_text.dart';
@@ -32,6 +34,9 @@ class MobileChart extends StatefulWidget {
   /// list of all candles to display in chart
   final List<Candle> candles;
 
+  /// list of all annotations to display in chart
+  final List<Annotation?> annotations;
+
   /// index of the newest candle to be displayed
   /// changes when user scrolls along the chart
   final int index;
@@ -47,6 +52,7 @@ class MobileChart extends StatefulWidget {
     required this.index,
     required this.onPanDown,
     required this.onPanEnd,
+    required this.annotations,
   });
 
   @override
@@ -58,7 +64,7 @@ class _MobileChartState extends State<MobileChart> {
   double? longPressY;
   double additionalVerticalPadding = 0;
 
-  double calcutePriceScale(double height, double high, double low) {
+  double calculatePriceScale(double height, double high, double low) {
     for (int i = 0; i < scales.length; i++) {
       double newHigh = (high ~/ scales[i] + 1) * scales[i];
       double newLow = (low ~/ scales[i]) * scales[i];
@@ -100,7 +106,7 @@ class _MobileChartState extends State<MobileChart> {
         double chartHeight = maxHeight * 0.75 -
             2 * (MAIN_CHART_VERTICAL_PADDING + additionalVerticalPadding);
         double priceScale =
-            calcutePriceScale(chartHeight, candlesHighPrice, candlesLowPrice);
+            calculatePriceScale(chartHeight, candlesHighPrice, candlesLowPrice);
 
         // high and low calibrations revision
         candlesHighPrice = (candlesHighPrice ~/ priceScale + 1) * priceScale;
@@ -192,6 +198,7 @@ class _MobileChartState extends State<MobileChart> {
                                               candles: widget.candles,
                                               candleWidth: widget.candleWidth,
                                               index: widget.index,
+                                              annotations: widget.annotations,
                                               high: high,
                                               low: low,
                                               bearColor:

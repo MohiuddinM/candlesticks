@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:candlesticks/src/constant/intervals.dart';
 import 'package:candlesticks/src/models/candle.dart';
+import 'package:candlesticks/src/models/candle_annotation.dart';
 import 'package:candlesticks/src/widgets/mobile_chart.dart';
 import 'package:candlesticks/src/widgets/web_chart.dart';
 import 'package:candlesticks/src/widgets/toolbar.dart';
@@ -12,6 +13,7 @@ import 'models/candle.dart';
 /// current position and candles width).
 class Candlesticks extends StatefulWidget {
   final List<Candle> candles;
+  final List<Annotation?> annotations;
 
   /// callback calls wshen user changes interval
   final Future<void> Function(String) onIntervalChange;
@@ -25,6 +27,7 @@ class Candlesticks extends StatefulWidget {
     required this.onIntervalChange,
     required this.interval,
     this.intervals,
+    required this.annotations,
   });
 
   @override
@@ -88,6 +91,7 @@ class _CandlesticksState extends State<Candlesticks> {
             builder: (_, width, __) {
               return kIsWeb
                   ? WebChart(
+                      annotations: widget.annotations,
                       onScaleUpdate: (double scale) {
                         setState(() {
                           candleWidth *= scale;
@@ -116,6 +120,7 @@ class _CandlesticksState extends State<Candlesticks> {
                       index: index,
                     )
                   : MobileChart(
+                      annotations: widget.annotations,
                       onScaleUpdate: (double scale) {
                         setState(() {
                           candleWidth *= scale;
