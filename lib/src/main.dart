@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:candlesticks/src/constant/intervals.dart';
 import 'package:candlesticks/src/models/candle.dart';
 import 'package:candlesticks/src/models/candle_annotation.dart';
-import 'package:candlesticks/src/widgets/mobile_chart.dart';
+import 'package:candlesticks/src/widgets/chart.dart';
 import 'package:candlesticks/src/widgets/web_chart.dart';
 import 'package:candlesticks/src/widgets/toolbar.dart';
 import 'package:flutter/foundation.dart';
@@ -119,7 +119,7 @@ class _CandlesticksState extends State<Candlesticks> {
                       candles: widget.candles,
                       index: index,
                     )
-                  : MobileChart(
+                  : Chart(
                       annotations: widget.annotations,
                       onScaleUpdate: (double scale) {
                         setState(() {

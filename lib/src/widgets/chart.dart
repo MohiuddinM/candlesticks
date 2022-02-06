@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:candlesticks/candlesticks.dart';
 import 'package:candlesticks/src/constant/view_constants.dart';
-import 'package:candlesticks/src/models/candle_annotation.dart';
 import 'package:candlesticks/src/theme/theme_data.dart';
 import 'package:candlesticks/src/utils/helper_functions.dart';
 import 'package:candlesticks/src/widgets/candle_info_text.dart';
@@ -10,7 +9,6 @@ import 'package:candlesticks/src/widgets/price_column.dart';
 import 'package:candlesticks/src/widgets/time_row.dart';
 import 'package:candlesticks/src/widgets/volume_widget.dart';
 import 'package:flutter/material.dart';
-import '../models/candle.dart';
 import 'package:candlesticks/src/constant/scales.dart';
 import 'dash_line.dart';
 
@@ -18,7 +16,7 @@ import 'dash_line.dart';
 /// Calculates the highest and lowest price of visible candles.
 /// Updates right-hand side numbers.
 /// And pass values down to [CandleStickWidget].
-class MobileChart extends StatefulWidget {
+class Chart extends StatefulWidget {
   /// onScaleUpdate callback
   /// called when user scales chart using buttons or scale gesture
   final Function onScaleUpdate;
@@ -44,7 +42,7 @@ class MobileChart extends StatefulWidget {
   final void Function(double) onPanDown;
   final void Function() onPanEnd;
 
-  MobileChart({
+  Chart({
     required this.onScaleUpdate,
     required this.onHorizontalDragUpdate,
     required this.candleWidth,
@@ -56,10 +54,10 @@ class MobileChart extends StatefulWidget {
   });
 
   @override
-  State<MobileChart> createState() => _MobileChartState();
+  State<Chart> createState() => _ChartState();
 }
 
-class _MobileChartState extends State<MobileChart> {
+class _ChartState extends State<Chart> {
   double? longPressX;
   double? longPressY;
   double additionalVerticalPadding = 0;
